@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStore - Programmer Hardware</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #1e1e2e;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-title {
+            font-size: 20px;
+            color: #333333;
+            margin: 10px 0;
+        }
+        .product-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            margin: 10px 0;
+        }
+        .product-desc {
+            color: #666666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .buy-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .buy-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>💻 DevStore</h1>
+        <p>Premium Hardware Tools for Professional Software Engineers</p>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            <!-- Dynamic Template Loop: Renders a card layout for every item row in the database -->
+                <!-- Dynamic Template Loop: Renders a card layout for every item row in the database -->
+            {% for item in products %}
+                <div class="product-card">
+                    <div>
+                        <h3 class="product-title">{{ item[0] }}</h3>
+                        <p class="product-price">${{ "%.2f"|format(item[1]) }}</p>
+                        <p class="product-desc">{{ item[2] }}</p>
+                    </div>
+                    <button class="buy-btn" onclick="alert('Item added to cart!')">Add to Cart</button>
+                </div>
+            {% endfor %}
