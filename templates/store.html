@@ -25,6 +25,28 @@
             text-decoration: none;
             font-weight: bold;
         }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0 10px 0;
+        }
+        .search-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .search-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
         .banner {
             color: orange; 
             font-weight: bold; 
@@ -72,6 +94,26 @@
         .buy-btn:hover {
             background-color: #0056b3;
         }
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            color: #666;
+            padding: 40px;
+            font-size: 1.2em;
+        }
+        .clear-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+        .clear-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -81,30 +123,34 @@
         <a href="/logout">Log Out</a>
     </div>
 
-    <!-- Your New GitHub Feature Banner -->
+    <!-- Dynamic Search Form -->
+    <form action="" method="GET" class="search-container">
+        <input type="text" name="search" placeholder="Search products (e.g., mouse, keyboard)..." value="{{ search_query }}" class="search-input">
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+
+    <!-- Contextual Back Link for Active Queries -->
+    {% if search_query %}
+        <a href="/" class="clear-link">🏡 View All Products / Reset Search</a>
+    {% endif %}
+
     <div class="banner">
         🛒 Shopping Cart Feature Coming Soon! (Tracking Issue #1)
     </div>
 
     <div class="catalog">
+        {% for product in products %}
         <div class="card">
-            <h3>Professional Developer Keyboard</h3>
-            <p>Mechanical keys for fast typing setup.</p>
-            <div class="price">$89.99</div>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <div class="price">${{ "%.2f"|format(product.price) }}</div>
             <button class="buy-btn">Add to Cart</button>
         </div>
-        <div class="card">
-            <h3>Ergonomic Developer Mouse</h3>
-            <p>Designed to reduce long-term wrist pain.</p>
-            <div class="price">$59.50</div>
-            <button class="buy-btn">Add to Cart</button>
+        {% else %}
+        <div class="no-results">
+            🔍 No products found matching your search.
         </div>
-        <div class="card">
-            <h3>Dual 4K Programming Monitor</h3>
-            <p>Built for crisp layout viewports.</p>
-            <div class="price">$299.99</div>
-            <button class="buy-btn">Add to Cart</button>
-        </div>
+        {% endfor %}
     </div>
 
 </body>
