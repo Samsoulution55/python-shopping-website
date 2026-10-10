@@ -84,14 +84,12 @@
         <h2>🔒 Access DevStore</h2>
         <p>Please log in to browse our premium developer hardware catalog.</p>
 
-        <!-- Condition: Displays a red warning banner if validation checks fail -->
         {% if error %}
             <div class="error-banner">
                 {{ error }}
             </div>
         {% endif %}
 
-        <!-- Secure Login Form Submitting Data Back to Python -->
         <form method="POST">
             <div class="input-group">
                 <label>Username</label>
@@ -105,6 +103,8 @@
             
             <button type="submit" class="login-btn">Log In</button>
         </form>
+        
+        <a href="{{ url_for('register') }}" style="display: inline-block; margin-top: 20px; color: #007bff; text-decoration: none; font-size: 14px;">Don't have an account? Sign Up</a>
     </div>
 
 </body>
