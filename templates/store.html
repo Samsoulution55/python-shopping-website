@@ -16,6 +16,18 @@
             color: #ffffff;
             padding: 20px;
             text-align: center;
+            position: relative;
+        }
+        .logout-link {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #ff4d4d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .logout-link:hover {
+            text-decoration: underline;
         }
         .container {
             max-width: 1200px;
@@ -74,13 +86,12 @@
 
     <div class="header">
         <h1>💻 DevStore</h1>
-        <p>Premium Hardware Tools for Professional Software Engineers</p>
+        <p>Welcome, <strong>{{ username }}</strong>! Premium Tools for Software Engineers</p>
+        <a href="{{ url_for('logout') }}" class="logout-link">🔒 Log Out</a>
     </div>
 
     <div class="container">
         <div class="grid">
-            <!-- Dynamic Template Loop: Renders a card layout for every item row in the database -->
-                <!-- Dynamic Template Loop: Renders a card layout for every item row in the database -->
             {% for item in products %}
                 <div class="product-card">
                     <div>
@@ -91,3 +102,8 @@
                     <button class="buy-btn" onclick="alert('Item added to cart!')">Add to Cart</button>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
