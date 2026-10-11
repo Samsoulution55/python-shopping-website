@@ -20,10 +20,23 @@
             padding: 10px 20px;
             border-radius: 5px;
         }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
         .header a {
             color: #ff4d4d;
             text-decoration: none;
             font-weight: bold;
+        }
+        .cart-badge {
+            background-color: #28a745;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
         }
         .search-container {
             display: flex;
@@ -59,25 +72,59 @@
         }
         .catalog {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
             margin-top: 20px;
         }
         .card {
             background: white;
-            padding: 20px;
+            padding: 0 0 20px 0;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        /* CSS Replacement for Broken Images */
+        .product-placeholder-box {
+            width: 100%;
+            height: 200px;
+            background-color: #2c3e50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            color: white;
+        }
+        .card:nth-child(2n) .product-placeholder-box {
+            background-color: #34495e;
+        }
+        .card:nth-child(3n) .product-placeholder-box {
+            background-color: #1a252f;
+        }
+        .card-content {
+            padding: 15px;
+            flex-grow: 1;
         }
         .card h3 {
-            margin-top: 0;
+            margin: 10px 0 5px 0;
+            font-size: 1.3em;
+        }
+        .card p {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 15px;
         }
         .price {
-            font-size: 1.2em;
+            font-size: 1.3em;
             color: #28a745;
             font-weight: bold;
             margin: 10px 0;
+        }
+        .buy-form {
+            width: 100%;
         }
         .buy-btn {
             background-color: #007bff;
@@ -88,7 +135,9 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            width: 100%;
+            width: 90%;
+            margin: 0 auto;
+            display: block;
             transition: background-color 0.2s;
         }
         .buy-btn:hover {
@@ -108,10 +157,8 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 15px;
-            transition: color 0.2s;
         }
         .clear-link:hover {
-            color: #0056b3;
             text-decoration: underline;
         }
     </style>
@@ -120,31 +167,43 @@
 
     <div class="header">
         <h2>DevStore Catalog</h2>
-        <a href="/logout">Log Out</a>
+        <div class="header-actions">
+            <span class="cart-badge">🛒 Cart: {{ cart_count }} items</span>
+            <a href="/logout">Log Out</a>
+        </div>
     </div>
 
-    <!-- Dynamic Search Form -->
+    <!-- Search Box -->
     <form action="" method="GET" class="search-container">
-        <input type="text" name="search" placeholder="Search products (e.g., mouse, keyboard)..." value="{{ search_query }}" class="search-input">
+        <input type="text" name="search" placeholder="Search products..." value="{{ search_query }}" class="search-input">
         <button type="submit" class="search-btn">Search</button>
     </form>
 
-    <!-- Contextual Back Link for Active Queries -->
     {% if search_query %}
         <a href="/" class="clear-link">🏡 View All Products / Reset Search</a>
     {% endif %}
 
     <div class="banner">
-        🛒 Shopping Cart Feature Coming Soon! (Tracking Issue #1)
+        🛒 Shopping Cart Feature Active! (Tracking Issue #1)
     </div>
 
     <div class="catalog">
         {% for product in products %}
         <div class="card">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <div class="price">${{ "%.2f"|format(product.price) }}</div>
-            <button class="buy-btn">Add to Cart</button>
+            <!-- Renders CSS Box Using Emojis In the Database Image Url Field -->
+            <div class="product-placeholder-box">
+                {{ product.image_url }}
+            </div>
+            
+            <div class="card-content">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <div class="price">${{ "%.2f"|format(product.price) }}</div>
+            </div>
+            
+            <form action="/add_to_cart/{{ product.id }}" method="POST" class="buy-form">
+                <button type="submit" class="buy-btn">Add to Cart</button>
+            </form>
         </div>
         {% else %}
         <div class="no-results">
